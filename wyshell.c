@@ -10,7 +10,12 @@ int main()
     char buf[1024];
     char sym[5];
     int err = 0;
-    int numRedir;
+    int REDIR_OUT_COUNT;
+    int REDIR_IN_COUNT;
+    int APPEND_OUT_COUNT;
+    int REDIR_ERR_COUNT;
+    int APPEND_ERR_COUNT;
+    int REDIR_ERR_OUT_COUNT;
     
 
 char *tokens[] = { "QUOTE_ERROR", "ERROR_CHAR", "SYSTEM_ERROR",
@@ -28,7 +33,7 @@ char *special_symbols[] = { "QUOTE_ERROR", "ERROR_CHAR", "SYSTEM_ERROR",
         printf("$> ");
         strcpy(sym, ":--:\0");
         err = 0;
-        numRedir = 0;
+        REDIR_OUT_COUNT = 0;
         rpt = fgets(buf, 256, stdin);
         if(rpt == NULL)
         {
@@ -66,8 +71,8 @@ char *special_symbols[] = { "QUOTE_ERROR", "ERROR_CHAR", "SYSTEM_ERROR",
                     err = 1;
                     break;
                 case REDIR_OUT:
-                    numRedir++;
-                    if(numRedir > 1)
+                    REDIR_OUT_COUNT++;
+                    if(REDIR_OUT_COUNT > 1)
                     {
                         err = 1;
                         puts("Ambiguous output redirection");
